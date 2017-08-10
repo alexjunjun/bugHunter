@@ -5,6 +5,9 @@ from flask import  Flask ,render_template ,jsonify , request
 import time
 import os
 import correlationToJIRA as toJIRA
+import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
 
 app = Flask(__name__)
 UPLOAD_FOLDER = 'uploadFiles'
