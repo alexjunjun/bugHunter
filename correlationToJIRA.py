@@ -6,6 +6,9 @@
 
 '''
 import sys , os
+
+from jira import JIRAError
+
 from uploadAttachmentuByIssueId import JIRA_TOOL
 import ConfigParser
 
@@ -39,26 +42,39 @@ def insertToJIRA(issueID ,file):
     jira_info = Config_read()
     conf = jira_info.get_value()
     jiraTool=JIRA_TOOL(conf)
+    result =True
     try :
         issueId = issueID
         file = file
     except :
-        print u'参数异常！！！'
-        return False
+        result = u'参数异常！！！'
+        return result
     else :
         #判断是否符合规则的issueID
         if checkIssueID(issueId) :
             if jiraTool.login():
-                jiraTool.uploadAttachment(issueId,file)
-                print u'插入附件成功'
-                return True
+                issue=None
+                try:
+                    issue=jiraTool.jiraClient.issue(issueId)
+                except Exception  as e:
+                    if isinstance(e,JIRAError):
+                        print e.text
+                        result = e.text
+                    else :
+                        print e
+                        result = e
+                else :
+                    jiraTool.uploadAttachment(issueId,file)
+                    print u'插入附件成功'
+                    result = True
+                return result
 
             else :
-                err = u'登录失败'
-                return err
+                result = u'登录失败'
+                return result
         else :
-            err = u'bugID不符合规则'
-            return err
+            result = u'bugID不符合规则'
+            return result
 
 
 if __name__ == '__main__':
