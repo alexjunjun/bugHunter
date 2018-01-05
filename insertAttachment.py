@@ -16,7 +16,7 @@ def checkIssueID(issueID):
     project = '-'
     if project in issueID:
         _mylogger.info(u'%s 符合条件，开始上传附件' % issueID)
-        return True
+        return True;
     else:
         _mylogger.info(u'%s 不符合条件，不做处理' % issueID)
         return False

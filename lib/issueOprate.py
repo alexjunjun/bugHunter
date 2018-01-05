@@ -1,5 +1,6 @@
 # coding=UTF-8
 from jira import JIRA, JIRAError
+import jira
 
 from lib.log_config import get_logger
 

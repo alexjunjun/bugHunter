@@ -44,7 +44,9 @@ def api_upload():
         1002 参数为空，上传文件失败
         1003 上传文件成功，插入jira附件失败
     '''
-
+    # 获取真实ip
+    # real_ip = request.headers.get('X-Real-Ip', request.remote_addr)
+    # print real_ip
     try:
         file = request.files['attachment']  # 从表单的file字段获取文件，myfile为该表单的name值
         bugID = request.form['bugID']
